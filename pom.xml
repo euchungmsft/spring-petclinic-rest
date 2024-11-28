@@ -240,13 +240,38 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>${docker.jib-maven-plugin.version}</version>
                 <configuration>
+                    <!-- Docker hub
+
+                    Set DOCKER_PREFIX, DOCKER_USERNAME, DOCKER_PASSWORD environment variables
+                    -->
                     <to>
-                        <image>docker.io/${docker.image.prefix}/${project.artifactId}</image>
+                        <image>registry.hub.docker.com/${env.DOCKER_PREFIX}/${project.artifactId}</image>
                         <tags>
                             <tag>${project.version}</tag>
                             <tag>latest</tag>
                         </tags>
+                        <auth>
+                            <username>${env.DOCKER_USERNAME}</username>
+                            <password>${env.DOCKER_PASSWORD}</password>
+                        </auth>                        
                     </to>
+                    <!-- ACR 
+
+                    1. Install credential helper 
+                        `curl -L https://aka.ms/acr/installaad/bash | /bin/bash`
+                        https://github.com/Azure/acr-docker-credential-helper
+                    2. Log on to ACR
+                        az login
+                        az acr login -n <your registry name>
+                    -->
+                    <!--
+                    <to>
+                        <image>acruse001.azurecr.io/${project.artifactId}</image>
+                    </to>
+                    -->
+                    <outputPaths>
+                        <tar>target/spring-petclinic-rest.tar</tar>
+                    </outputPaths>                     
                 </configuration>
             </plugin>
 
